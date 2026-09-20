@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
 
 export default function Flashcards() {
-  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -36,55 +35,58 @@ export default function Flashcards() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 p-6 text-white flex flex-col">
-      <div className="flex justify-between items-center mb-6">
-        <button onClick={() => navigate('/dashboard')} className="text-slate-400 hover:text-white text-sm">
-          ← Dashboard
-        </button>
-        <h1 className="text-xl font-bold">Interview Flashcards</h1>
-        <div className="w-16"></div>
+    <Layout>
+      <div style={{ marginBottom: 24, textAlign: 'center' }}>
+        <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--v-gold-500)' }}>
+          Study Mode
+        </p>
+        <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800 }}>Interview Flashcards</h1>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center max-w-xl mx-auto w-full space-y-6">
-        <div className="text-slate-400 text-sm">
+      <div style={{ maxWidth: 560, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22 }}>
+        <div style={{ fontSize: 13, color: 'var(--v-ink-faint)' }}>
           Card {currentIndex + 1} of {cards.length}
         </div>
 
-        <div
-          onClick={() => setIsFlipped(!isFlipped)}
-          className="w-full h-80 bg-slate-900 border border-slate-800 hover:border-indigo-500 rounded-2xl p-8 cursor-pointer transition-all flex flex-col justify-between shadow-xl select-none"
-        >
-          <div className="flex justify-between items-center text-xs text-slate-500 font-semibold uppercase tracking-wider">
-            <span>{isFlipped ? 'Answer' : 'Question'}</span>
-            <span>Click to flip</span>
-          </div>
+        <div style={{ perspective: 1400, width: '100%', height: 320 }}>
+          <div
+            onClick={() => setIsFlipped(!isFlipped)}
+            className="v-card"
+            style={{
+              width: '100%', height: '100%', padding: 30, cursor: 'pointer', userSelect: 'none',
+              display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+              transform: isFlipped ? 'rotateY(4deg) scale(1.01)' : 'rotateY(0deg)',
+              transition: 'transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 250ms ease',
+              transformStyle: 'preserve-3d',
+              borderColor: isFlipped ? 'var(--v-glass-border-gold)' : undefined,
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--v-ink-faint)' }}>
+              <span>{isFlipped ? 'Answer' : 'Question'}</span>
+              <span>Click to flip</span>
+            </div>
 
-          <div className="my-auto text-center">
-            <p className="text-xl font-medium text-slate-200 leading-relaxed">
-              {isFlipped ? cards[currentIndex].answer : cards[currentIndex].question}
-            </p>
-          </div>
+            <div style={{ margin: 'auto 0', textAlign: 'center' }}>
+              <p style={{ fontSize: 19, fontWeight: 600, color: 'var(--v-ink)', lineHeight: 1.6, margin: 0 }}>
+                {isFlipped ? cards[currentIndex].answer : cards[currentIndex].question}
+              </p>
+            </div>
 
-          <div className="text-center text-xs text-indigo-400">
-            {isFlipped ? 'Click to see question' : 'Click to reveal answer'}
+            <div className="v-gold-text" style={{ textAlign: 'center', fontSize: 12, fontWeight: 700 }}>
+              {isFlipped ? 'Click to see question' : 'Click to reveal answer'}
+            </div>
           </div>
         </div>
 
-        <div className="flex gap-4 w-full">
-          <button
-            onClick={handlePrev}
-            className="flex-1 bg-slate-900 border border-slate-800 hover:bg-slate-800 py-3 rounded-xl font-medium transition text-sm"
-          >
+        <div style={{ display: 'flex', gap: 14, width: '100%' }}>
+          <button onClick={handlePrev} className="v-btn-ghost" style={{ flex: 1, justifyContent: 'center' }}>
             Previous
           </button>
-          <button
-            onClick={handleNext}
-            className="flex-1 bg-indigo-600 hover:bg-indigo-500 py-3 rounded-xl font-medium transition text-sm"
-          >
+          <button onClick={handleNext} className="v-btn-gold" style={{ flex: 1, justifyContent: 'center' }}>
             Next Card
           </button>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }

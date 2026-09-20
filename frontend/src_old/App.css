@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --background: #131722;
+  --foreground: #eceff3;
+  --primary: #b3e93a;
+  --primary-foreground: #131722;
+  --muted-foreground: #8c95a5;
+  --border: #222a3d;
+  --card: #181d2c;
+  --card-elevated: #21283b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Manrope', sans-serif;
+  overflow-x: hidden;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}

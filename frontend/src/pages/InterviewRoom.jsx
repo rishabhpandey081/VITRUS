@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiMic, FiSquare, FiArrowRight, FiCheckCircle, FiChevronLeft } from 'react-icons/fi';
+import { FiMic, FiSquare, FiArrowRight, FiCheckCircle } from 'react-icons/fi';
+import Layout from '../components/Layout';
 import { useApp } from '../context/AppContext';
 
 export default function InterviewRoom() {
@@ -13,7 +14,6 @@ export default function InterviewRoom() {
   const [transcript, setTranscript] = useState('');
   const [isCompleted, setIsCompleted] = useState(false);
 
-  // Dynamic questions based on the selected interview track
   const questions = [
     `Explain the core architectural patterns you use when building a scalable ${selectedInterview?.title || 'Frontend'} application.`,
     `How do you handle state management and performance optimizations in complex workflows?`,
@@ -40,7 +40,6 @@ export default function InterviewRoom() {
       setTranscript('');
       setIsRecording(false);
     } else {
-      // Calculate a score and save to history
       const newScore = Math.floor(Math.random() * (95 - 78 + 1)) + 78;
       const newSession = {
         id: Date.now(),
@@ -56,123 +55,127 @@ export default function InterviewRoom() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f4f7f6] flex flex-col">
-      {/* Top Header */}
-      <header className="bg-white border-b border-gray-200 px-8 py-4 flex justify-between items-center shadow-sm">
-        <button 
-          onClick={() => navigate('/interviews')}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium text-sm transition"
-        >
-          <FiChevronLeft size={18} /> Exit Room
-        </button>
-        <div className="text-center">
-          <h2 className="text-sm font-bold text-gray-800">{selectedInterview?.title} Mock Assessment</h2>
-          <p className="text-xs text-gray-400">Question {currentStep + 1} of {questions.length}</p>
-        </div>
-        <div className="w-24"></div>
-      </header>
+    <Layout footer={false}>
+      <div style={{ marginBottom: 24, textAlign: 'center' }}>
+        <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--v-gold-500)' }}>
+          {selectedInterview?.title || 'Technical'} Mock Assessment
+        </p>
+        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 800 }}>Question {currentStep + 1} of {questions.length}</h1>
+      </div>
 
-      {/* Main Room Content */}
-      <main className="flex-1 max-w-4xl w-full mx-auto p-8 flex flex-col justify-center">
+      <div style={{ maxWidth: 760, margin: '0 auto' }}>
         {!isCompleted ? (
-          <motion.div 
+          <motion.div
             key={currentStep}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm flex flex-col gap-6"
+            className="v-card"
+            style={{ padding: 32, display: 'flex', flexDirection: 'column', gap: 24 }}
           >
-            <div className="flex justify-between items-center">
-              <span className="text-xs font-semibold px-3 py-1 bg-teal-50 text-teal-800 rounded-full">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: 11.5, fontWeight: 700, padding: '4px 12px', background: 'rgba(226,183,20,0.14)', color: 'var(--v-gold-300)', border: '1px solid rgba(226,183,20,0.4)', borderRadius: 999 }}>
                 AI Interviewer Active
               </span>
-              <span className="text-xs font-bold text-gray-400">
+              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--v-ink-faint)' }}>
                 Progress: {Math.round(((currentStep + 1) / questions.length) * 100)}%
               </span>
             </div>
 
-            <h1 className="text-2xl font-bold text-gray-800 leading-snug">
+            <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--v-ink)', lineHeight: 1.5, margin: 0 }}>
               {questions[currentStep]}
             </h1>
 
             {/* Video / Audio Preview Box */}
-            <div className="bg-gray-900 rounded-2xl h-64 flex flex-col items-center justify-center relative overflow-hidden text-white p-6 shadow-inner">
-              <div className="absolute top-4 left-4 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full text-xs flex items-center gap-2 border border-white/10">
-                <span className={`w-2.5 h-2.5 rounded-full ${isRecording ? 'bg-red-500 animate-pulse' : 'bg-teal-400'}`}></span>
+            <div
+              style={{
+                background: 'rgba(0,0,0,0.5)', border: '1px solid var(--v-glass-border)', borderRadius: 18,
+                height: 260, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                position: 'relative', overflow: 'hidden', padding: 24,
+              }}
+            >
+              <div style={{
+                position: 'absolute', top: 16, left: 16, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(10px)',
+                padding: '5px 14px', borderRadius: 999, fontSize: 11.5, display: 'flex', alignItems: 'center', gap: 8,
+                border: '1px solid var(--v-glass-border)', color: 'var(--v-ink-muted)',
+              }}>
+                <span style={{
+                  width: 9, height: 9, borderRadius: '50%',
+                  background: isRecording ? '#ef4444' : 'var(--v-gold-500)',
+                  boxShadow: isRecording ? '0 0 8px #ef4444' : '0 0 8px rgba(226,183,20,0.7)',
+                }} />
                 {isRecording ? 'Recording Answer...' : 'AI Ready'}
               </div>
 
               {transcript ? (
-                <motion.p 
+                <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-gray-300 text-sm text-center max-w-xl italic bg-white/5 p-4 rounded-xl border border-white/10"
+                  style={{ color: 'var(--v-ink-muted)', fontSize: 13.5, textAlign: 'center', maxWidth: 480, fontStyle: 'italic', background: 'rgba(255,255,255,0.04)', padding: 16, borderRadius: 14, border: '1px solid var(--v-glass-border)' }}
                 >
                   "{transcript}"
                 </motion.p>
               ) : (
-                <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-teal-500/20 text-teal-400 flex items-center justify-center mx-auto mb-3 border border-teal-500/30">
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{
+                    width: 64, height: 64, borderRadius: '50%', background: 'rgba(226,183,20,0.14)', color: 'var(--v-gold-500)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px', border: '1px solid rgba(226,183,20,0.35)',
+                  }}>
                     <FiMic size={28} />
                   </div>
-                  <p className="text-sm text-gray-400">Click record to speak your response.</p>
+                  <p style={{ fontSize: 13, color: 'var(--v-ink-faint)', margin: 0 }}>Click record to speak your response.</p>
                 </div>
               )}
             </div>
 
             {/* Control Bar */}
-            <div className="flex justify-between items-center pt-4">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 14 }}>
               <button
                 onClick={handleToggleRecording}
-                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium text-sm transition shadow-sm ${
-                  isRecording 
-                    ? 'bg-red-500 hover:bg-red-600 text-white' 
-                    : 'bg-teal-700 hover:bg-teal-800 text-white'
-                }`}
+                className={isRecording ? undefined : 'v-btn-gold'}
+                style={isRecording ? {
+                  display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 22px', borderRadius: 999,
+                  background: '#ef4444', color: '#fff', border: 'none', fontWeight: 700, fontSize: 14, cursor: 'pointer',
+                } : undefined}
               >
                 {isRecording ? <><FiSquare size={16} /> Stop Recording</> : <><FiMic size={16} /> Answer with Audio</>}
               </button>
 
-              <button
-                onClick={handleNextQuestion}
-                className="flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white px-6 py-3 rounded-xl font-medium text-sm transition shadow-sm"
-              >
+              <button onClick={handleNextQuestion} className="v-btn-ghost">
                 {currentStep === questions.length - 1 ? 'Finish Interview' : 'Next Question'} <FiArrowRight size={16} />
               </button>
             </div>
           </motion.div>
         ) : (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white p-10 rounded-3xl border border-gray-200 shadow-sm text-center flex flex-col items-center gap-6"
+            className="v-card"
+            style={{ padding: 44, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22 }}
           >
-            <div className="w-20 h-20 rounded-full bg-teal-50 text-teal-700 flex items-center justify-center">
-              <FiCheckCircle size={40} />
+            <div style={{
+              width: 76, height: 76, borderRadius: '50%', background: 'var(--v-gold-gradient)', color: '#1a1305',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 30px rgba(226,183,20,0.5)',
+            }}>
+              <FiCheckCircle size={38} />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">Interview Successfully Completed!</h1>
-              <p className="text-gray-500 max-w-md mx-auto text-sm">
+              <h1 style={{ fontSize: 26, fontWeight: 800, color: 'var(--v-ink)', margin: '0 0 8px' }}>Interview Successfully Completed!</h1>
+              <p style={{ color: 'var(--v-ink-muted)', maxWidth: 420, margin: '0 auto', fontSize: 13.5, lineHeight: 1.6 }}>
                 Your responses have been saved and evaluated. Check your analytics dashboard to review your performance metrics.
               </p>
             </div>
-            <div className="flex gap-4 mt-2">
-              <button
-                onClick={() => navigate('/analytics')}
-                className="bg-teal-700 hover:bg-teal-800 text-white px-6 py-3 rounded-xl font-medium text-sm transition shadow-sm"
-              >
+            <div style={{ display: 'flex', gap: 14 }}>
+              <button onClick={() => navigate('/analytics')} className="v-btn-gold">
                 View Analytics
               </button>
-              <button
-                onClick={() => navigate('/dashboard')}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-medium text-sm transition"
-              >
+              <button onClick={() => navigate('/dashboard')} className="v-btn-ghost">
                 Return to Dashboard
               </button>
             </div>
           </motion.div>
         )}
-      </main>
-    </div>
+      </div>
+    </Layout>
   );
 }

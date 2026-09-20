@@ -1,24 +1,156 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap');
-
-:root {
-  --background: #131722;
-  --foreground: #eceff3;
-  --primary: #b3e93a;
-  --primary-foreground: #131722;
-  --muted-foreground: #8c95a5;
-  --border: #222a3d;
-  --card: #181d2c;
-  --card-elevated: #21283b;
+.stage {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--v-bg, #030305);
+  color: var(--v-ink, #f7f6f2);
+  font-family: 'Manrope', 'Geist', 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: 'Manrope', sans-serif;
-  overflow-x: hidden;
+/* Topbar ------------------------------------------------------------- */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px clamp(20px, 4vw, 64px);
+  background: rgba(3, 3, 5, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--v-glass-border, rgba(255,255,255,0.09));
 }
 
-.font-mono {
+.brand svg { width: 26px; height: 40px; display: block; }
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.6vw, 36px);
+}
+.links a {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(247, 246, 242, 0.7);
+  transition: color 200ms ease;
+}
+.links a:hover { color: var(--v-gold-500, #e2b714); }
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 11px 22px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 700;
+  transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
+}
+.pill-nav {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--v-glass-border-gold, rgba(226,183,20,0.35));
+  color: var(--v-ink, #f7f6f2);
+}
+.pill-nav:hover { background: rgba(226,183,20,0.12); transform: translateY(-1px); }
+
+.pill-cta {
+  background: var(--v-gold-gradient, linear-gradient(135deg,#f4e3a1,#e2b714,#c59b27));
+  color: #1a1305;
+  box-shadow: 0 10px 30px -10px rgba(226,183,20,0.55);
+}
+.pill-cta:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 16px 40px -12px rgba(226,183,20,0.7); }
+
+@media (max-width: 860px) {
+  .links { display: none; }
+}
+
+/* Hero ----------------------------------------------------------------- */
+.hero {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.headline {
+  margin: 0 0 22px;
+  font-size: clamp(38px, 6vw, 84px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.headline span { display: block; }
+.headline span:last-child {
+  background: var(--v-gold-gradient, linear-gradient(135deg,#f4e3a1,#e2b714,#c59b27));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sub {
+  margin: 0 0 40px;
+  font-size: clamp(15px, 1.6vw, 19px);
+  color: rgba(247, 246, 242, 0.62);
+  line-height: 1.6;
+  max-width: 620px;
+}
+.sub span { display: block; }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.actions .pill-cta { padding: 15px 32px; font-size: 15px; }
+
+.ghost {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--v-ink, #f7f6f2);
+  padding: 15px 26px;
+  border-radius: 999px;
+  border: 1px solid var(--v-glass-border, rgba(255,255,255,0.09));
+  background: rgba(255,255,255,0.03);
+  transition: border-color 220ms ease, background 220ms ease, transform 220ms ease;
+}
+.ghost:hover {
+  border-color: var(--v-glass-border-gold, rgba(226,183,20,0.35));
+  background: rgba(226,183,20,0.08);
+  transform: translateY(-1px);
+}
+
+/* Tech logos strip ------------------------------------------------------- */
+.logos {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(28px, 5vw, 64px);
+  padding: 0 20px 64px;
+}
+
+.lg {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(247, 246, 242, 0.45);
+  transition: color 220ms ease, transform 220ms ease;
+}
+.lg:hover { color: var(--v-gold-500, #e2b714); transform: translateY(-2px); }
+.lg svg { width: 22px; height: 22px; fill: currentColor; }
+.lg span {
+  font-size: 13px;
+  font-weight: 700;
   font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.02em;
 }

@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
+
+const fieldStyle = {
+  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid var(--v-glass-border)',
+  borderRadius: 10, padding: 12, color: 'var(--v-ink)', fontSize: 13.5, outline: 'none', boxSizing: 'border-box',
+};
+const labelStyle = { display: 'block', fontSize: 12.5, color: 'var(--v-ink-muted)', marginBottom: 6 };
 
 export default function SalaryNegotiator() {
-  const navigate = useNavigate();
   const [form, setForm] = useState({
     currentOffer: '95,000',
     targetSalary: '115,000',
@@ -18,69 +23,52 @@ export default function SalaryNegotiator() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 p-6 text-white flex flex-col">
-      <div className="flex justify-between items-center mb-6">
-        <button onClick={() => navigate('/dashboard')} className="text-slate-400 hover:text-white text-sm">
-          ← Dashboard
-        </button>
-        <h1 className="text-xl font-bold">AI Salary Negotiator</h1>
-        <div className="w-16"></div>
+    <Layout>
+      <div style={{ marginBottom: 24 }}>
+        <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--v-gold-500)' }}>
+          Offer Strategy
+        </p>
+        <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800 }}>AI Salary Negotiator</h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
-        <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-4">
-          <h2 className="text-lg font-semibold mb-2">Negotiation Inputs</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="v-card" style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <h2 style={{ margin: '0 0 4px', fontSize: 17, fontWeight: 700, color: 'var(--v-ink)' }}>Negotiation Inputs</h2>
           <div>
-            <label className="block text-sm text-slate-400 mb-1">Current Offer ($)</label>
-            <input
-              type="text"
-              value={form.currentOffer}
-              onChange={(e) => setForm({ ...form, currentOffer: e.target.value })}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm"
-            />
+            <label style={labelStyle}>Current Offer ($)</label>
+            <input type="text" value={form.currentOffer} onChange={(e) => setForm({ ...form, currentOffer: e.target.value })} style={fieldStyle} />
           </div>
           <div>
-            <label className="block text-sm text-slate-400 mb-1">Target Salary ($)</label>
-            <input
-              type="text"
-              value={form.targetSalary}
-              onChange={(e) => setForm({ ...form, targetSalary: e.target.value })}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm"
-            />
+            <label style={labelStyle}>Target Salary ($)</label>
+            <input type="text" value={form.targetSalary} onChange={(e) => setForm({ ...form, targetSalary: e.target.value })} style={fieldStyle} />
           </div>
           <div>
-            <label className="block text-sm text-slate-400 mb-1">Tone</label>
-            <select
-              value={form.tone}
-              onChange={(e) => setForm({ ...form, tone: e.target.value })}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm"
-            >
+            <label style={labelStyle}>Tone</label>
+            <select value={form.tone} onChange={(e) => setForm({ ...form, tone: e.target.value })} style={fieldStyle}>
               <option>Professional & Confident</option>
               <option>Firm & Direct</option>
               <option>Enthusiastic & Collaborative</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm text-slate-400 mb-1">Key Leverage / Highlights</label>
-            <textarea
-              value={form.keyLeverage}
-              onChange={(e) => setForm({ ...form, keyLeverage: e.target.value })}
-              rows="3"
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm resize-none"
-            />
+            <label style={labelStyle}>Key Leverage / Highlights</label>
+            <textarea value={form.keyLeverage} onChange={(e) => setForm({ ...form, keyLeverage: e.target.value })} rows="3" style={{ ...fieldStyle, resize: 'none' }} />
           </div>
-          <button
-            onClick={handleGenerate}
-            className="w-full bg-indigo-600 hover:bg-indigo-500 py-3 rounded-lg font-medium transition text-sm"
-          >
+          <button onClick={handleGenerate} className="v-btn-gold" style={{ width: '100%', justifyContent: 'center' }}>
             Generate Negotiation Script
           </button>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl flex flex-col justify-between">
-          <div className="flex-1 flex flex-col">
-            <h2 className="text-lg font-semibold mb-4 text-indigo-400">Generated Counter-Offer Script</h2>
-            <div className="flex-1 bg-slate-950 border border-slate-800 p-4 rounded-lg font-mono text-xs text-slate-300 whitespace-pre-line overflow-y-auto max-h-[350px]">
+        <div className="v-card" style={{ padding: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <h2 className="v-gold-text" style={{ margin: '0 0 14px', fontSize: 17, fontWeight: 700 }}>Generated Counter-Offer Script</h2>
+            <div
+              className="v-font-mono"
+              style={{
+                flex: 1, background: 'rgba(0,0,0,0.35)', border: '1px solid var(--v-glass-border)', borderRadius: 12,
+                padding: 16, fontSize: 12, color: 'var(--v-ink-muted)', whiteSpace: 'pre-line', overflowY: 'auto', maxHeight: 350,
+              }}
+            >
               {script || 'Click "Generate Negotiation Script" to create your tailored counter-offer message.'}
             </div>
           </div>
@@ -91,12 +79,13 @@ export default function SalaryNegotiator() {
                 alert('Script copied to clipboard!');
               }
             }}
-            className="mt-6 bg-slate-800 hover:bg-slate-700 text-white py-3 rounded-lg font-medium transition text-sm"
+            className="v-btn-ghost"
+            style={{ marginTop: 20, width: '100%', justifyContent: 'center' }}
           >
             Copy to Clipboard
           </button>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }

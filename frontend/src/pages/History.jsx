@@ -1,9 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
 
 export default function History() {
-  const navigate = useNavigate();
-
   const sessions = [
     {
       id: 1,
@@ -35,43 +33,47 @@ export default function History() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 p-6 text-white flex flex-col">
-      <div className="flex justify-between items-center mb-6">
-        <button onClick={() => navigate('/dashboard')} className="text-slate-400 hover:text-white text-sm">
-          ← Dashboard
-        </button>
-        <h1 className="text-xl font-bold">Interview & Session History</h1>
-        <div className="w-16"></div>
+    <Layout>
+      <div style={{ marginBottom: 24 }}>
+        <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--v-gold-500)' }}>
+          History
+        </p>
+        <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800 }}>Interview &amp; Session History</h1>
       </div>
 
-      <div className="max-w-4xl mx-auto w-full space-y-4 flex-1">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {sessions.map((session) => (
-          <div key={session.id} className="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-slate-800 pb-4">
+          <div key={session.id} className="v-card" style={{ padding: 24 }}>
+            <div style={{
+              display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 10,
+              borderBottom: '1px solid var(--v-glass-border)', paddingBottom: 16, marginBottom: 16,
+            }}>
               <div>
-                <div className="flex items-center gap-3">
-                  <h2 className="text-lg font-bold text-white">{session.role}</h2>
-                  <span className="text-xs bg-indigo-950 text-indigo-400 border border-indigo-800 px-2 py-0.5 rounded font-medium">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                  <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: 'var(--v-ink)' }}>{session.role}</h2>
+                  <span style={{ fontSize: 11, fontWeight: 700, background: 'rgba(226,183,20,0.12)', color: 'var(--v-gold-300)', border: '1px solid rgba(226,183,20,0.32)', padding: '2px 9px', borderRadius: 6 }}>
                     {session.type}
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 mt-1">Completed on {session.date}</p>
+                <p style={{ margin: '4px 0 0', fontSize: 12, color: 'var(--v-ink-faint)' }}>Completed on {session.date}</p>
               </div>
-              <div className="flex items-center gap-3">
-                <span className="text-sm font-semibold text-indigo-400">{session.score}</span>
-                <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-950 text-emerald-400 border border-emerald-800">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span className="v-gold-text" style={{ fontSize: 14, fontWeight: 800 }}>{session.score}</span>
+                <span style={{ padding: '5px 13px', borderRadius: 999, fontSize: 11.5, fontWeight: 700, background: 'rgba(52, 211, 153, 0.12)', color: '#6ee7b7', border: '1px solid rgba(52, 211, 153, 0.35)' }}>
                   {session.status}
                 </span>
               </div>
             </div>
 
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">AI Feedback & Summary</span>
-              <p className="text-sm text-slate-300 leading-relaxed">{session.feedback}</p>
+              <span style={{ display: 'block', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--v-ink-faint)', marginBottom: 6 }}>
+                AI Feedback &amp; Summary
+              </span>
+              <p style={{ margin: 0, fontSize: 13.5, color: 'var(--v-ink-muted)', lineHeight: 1.6 }}>{session.feedback}</p>
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </Layout>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiArrowLeft, FiCheckSquare, FiCheckCircle, FiSquare, FiCalendar, FiClock, FiShield, FiCpu, FiSmile } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import { FiCheckSquare, FiSquare } from 'react-icons/fi';
+import Layout from '../components/Layout';
 
 const defaultChecklist = [
   { id: 1, category: 'Environment & Tech', text: 'Test webcam, microphone, and speakers on Zoom/Google Meet', completed: false },
@@ -14,7 +14,6 @@ const defaultChecklist = [
 ];
 
 export default function InterviewPlanner() {
-  const navigate = useNavigate();
   const [checklist, setChecklist] = useState([]);
   const [interviewDate, setInterviewDate] = useState('');
   const [targetCompany, setTargetCompany] = useState('Google');
@@ -54,59 +53,55 @@ export default function InterviewPlanner() {
   const progressPercentage = checklist.length > 0 ? Math.round((completedCount / checklist.length) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-6 md:p-10 flex flex-col">
-      <header className="max-w-4xl w-full mx-auto flex justify-between items-center mb-8">
-        <button 
-          onClick={() => navigate('/dashboard')}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 transition-all text-sm font-medium cursor-pointer"
-        >
-          <FiArrowLeft /> Back to Dashboard
-        </button>
-        <span className="text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 font-semibold flex items-center gap-1">
-          <FiCheckSquare /> Interview Day Planner
-        </span>
-      </header>
+    <Layout>
+      <div style={{ marginBottom: 24 }}>
+        <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--v-gold-500)' }}>
+          Interview Day Planner
+        </p>
+        <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800 }}>Pre-Flight Interview Checklist</h1>
+      </div>
 
-      <main className="max-w-4xl w-full mx-auto flex-1 space-y-6">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         {/* Header Summary Card */}
-        <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div className="space-y-2">
-            <h1 className="text-2xl font-bold">Pre-Flight Interview Checklist</h1>
-            <p className="text-slate-300 text-sm">Complete your technical setup and mental preparation before stepping into the interview loop.</p>
+        <div className="v-card" style={{ padding: 24, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 20 }}>
+          <div>
+            <p style={{ margin: 0, fontSize: 13.5, color: 'var(--v-ink-muted)', maxWidth: 420, lineHeight: 1.6 }}>
+              Complete your technical setup and mental preparation before stepping into the interview loop.
+            </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>
             <div>
-              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Target Company</label>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--v-ink-faint)', marginBottom: 6 }}>Target Company</label>
               <input
                 type="text"
                 value={targetCompany}
                 onChange={handleCompanyChange}
                 placeholder="e.g. Google, Meta"
-                className="p-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm w-full sm:w-40"
+                style={{ padding: 12, borderRadius: 10, background: 'rgba(0,0,0,0.35)', border: '1px solid var(--v-glass-border)', color: 'var(--v-ink)', fontSize: 13.5, outline: 'none', width: 170 }}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Interview Date</label>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--v-ink-faint)', marginBottom: 6 }}>Interview Date</label>
               <input
                 type="date"
                 value={interviewDate}
                 onChange={handleDateChange}
-                className="p-3 rounded-xl bg-slate-900 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm cursor-pointer w-full sm:w-44"
+                style={{ padding: 12, borderRadius: 10, background: 'rgba(0,0,0,0.35)', border: '1px solid var(--v-glass-border)', color: 'var(--v-ink)', fontSize: 13.5, outline: 'none', cursor: 'pointer', width: 180 }}
               />
             </div>
           </div>
         </div>
 
         {/* Progress Bar */}
-        <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl space-y-3">
-          <div className="flex justify-between items-center text-sm font-semibold">
-            <span className="text-slate-300">Readiness Progress</span>
-            <span className="text-emerald-400">{progressPercentage}% Complete ({completedCount}/{checklist.length})</span>
+        <div className="v-card" style={{ padding: 24 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 13.5, fontWeight: 700, marginBottom: 12 }}>
+            <span style={{ color: 'var(--v-ink-muted)' }}>Readiness Progress</span>
+            <span className="v-gold-text">{progressPercentage}% Complete ({completedCount}/{checklist.length})</span>
           </div>
-          <div className="w-full h-3 rounded-full bg-slate-950 overflow-hidden border border-white/10">
+          <div style={{ width: '100%', height: 10, borderRadius: 999, background: 'rgba(0,0,0,0.4)', overflow: 'hidden', border: '1px solid var(--v-glass-border)' }}>
             <motion.div
-              className="h-full bg-gradient-to-r from-emerald-500 to-cyan-500"
+              style={{ height: '100%', background: 'var(--v-gold-gradient)' }}
               initial={{ width: 0 }}
               animate={{ width: `${progressPercentage}%` }}
               transition={{ duration: 0.4 }}
@@ -115,34 +110,38 @@ export default function InterviewPlanner() {
         </div>
 
         {/* Checklist Items */}
-        <div className="grid grid-cols-1 gap-3">
+        <div style={{ display: 'grid', gap: 12 }}>
           {checklist.map((item) => (
             <motion.div
               key={item.id}
               whileHover={{ scale: 1.01 }}
               onClick={() => toggleItem(item.id)}
-              className={`p-5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-4 ${item.completed ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-white/10 border-white/20 hover:bg-white/15'}`}
+              className="v-card"
+              style={{
+                padding: 20, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 16,
+                background: item.completed ? 'rgba(226,183,20,0.08)' : undefined,
+                borderColor: item.completed ? 'var(--v-glass-border-gold)' : undefined,
+              }}
             >
-              <div className="flex items-center gap-4 flex-1">
-                <button
-                  type="button"
-                  className={`text-xl transition-colors ${item.completed ? 'text-emerald-400' : 'text-slate-400'}`}
-                >
-                  {item.completed ? <FiCheckSquare /> : <FiSquare />}
-                </button>
-                <div className="space-y-0.5">
-                  <span className="text-xs uppercase tracking-wider px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-slate-300 font-semibold inline-block mb-1">
-                    {item.category}
-                  </span>
-                  <p className={`text-sm font-medium ${item.completed ? 'text-emerald-200 line-through opacity-80' : 'text-white'}`}>
-                    {item.text}
-                  </p>
-                </div>
+              <span style={{ fontSize: 20, color: item.completed ? 'var(--v-gold-500)' : 'var(--v-ink-faint)', flexShrink: 0, display: 'flex' }}>
+                {item.completed ? <FiCheckSquare /> : <FiSquare />}
+              </span>
+              <div>
+                <span style={{ display: 'inline-block', fontSize: 11, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', padding: '2px 9px', borderRadius: 6, background: 'rgba(255,255,255,0.06)', border: '1px solid var(--v-glass-border)', color: 'var(--v-ink-muted)', marginBottom: 6 }}>
+                  {item.category}
+                </span>
+                <p style={{
+                  margin: 0, fontSize: 13.5, fontWeight: 600,
+                  color: item.completed ? 'var(--v-ink-muted)' : 'var(--v-ink)',
+                  textDecoration: item.completed ? 'line-through' : 'none',
+                }}>
+                  {item.text}
+                </p>
               </div>
             </motion.div>
           ))}
         </div>
-      </main>
-    </div>
+      </div>
+    </Layout>
   );
 }

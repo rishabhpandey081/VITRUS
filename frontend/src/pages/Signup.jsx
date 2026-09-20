@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import PublicShell from '../components/PublicShell';
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -26,122 +27,109 @@ export default function Signup() {
       alert("Passwords do not match!");
       return;
     }
-    // Handle registration logic here, then route to dashboard or login
     navigate('/dashboard');
   };
 
+  const inputStyle = {
+    width: '100%',
+    padding: '11px 40px 11px 14px',
+    borderRadius: 10,
+    border: '1px solid var(--v-glass-border)',
+    background: 'rgba(0,0,0,0.35)',
+    color: 'var(--v-ink)',
+    fontSize: 13.5,
+    outline: 'none',
+    boxSizing: 'border-box',
+  };
+
+  const labelStyle = { display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--v-ink-muted)', marginBottom: 6 };
+
   return (
-    <div className="relative min-h-screen w-full bg-[#d8eae6] overflow-hidden flex items-center justify-end pr-16 py-10">
-      {/* Background Graphic Layer */}
-      <img 
-        src="/bg.png" 
-        alt="Background" 
-        className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
-      />
+    <PublicShell>
+      <div className="v-card v-glass-strong" style={{ width: '100%', maxWidth: 440, padding: 34 }}>
+        <div style={{ textAlign: 'center', marginBottom: 22 }}>
+          <div
+            style={{
+              width: 46, height: 46, borderRadius: 14, margin: '0 auto 14px',
+              background: 'var(--v-gold-gradient)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 0 24px rgba(226,183,20,0.5)',
+            }}
+          >
+            <span style={{ color: '#1a1305', fontWeight: 900, fontSize: 20, fontFamily: 'JetBrains Mono, monospace' }}>V</span>
+          </div>
+          <h1 className="v-gold-text" style={{ fontSize: 24, fontWeight: 800, margin: 0 }}>Create Account</h1>
+        </div>
 
-      {/* Right Glass Box */}
-      <div className="relative z-10 w-full max-w-md bg-white/70 backdrop-blur-md p-8 rounded-[30px] shadow-2xl border border-white/40 my-auto">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">Create Account</h1>
-
-        <form onSubmit={handleSignup} className="space-y-4">
+        <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              placeholder="Full Name"
-              className="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-white/50 focus:outline-none focus:ring-2 focus:ring-teal-500 text-gray-800 text-sm"
-              required
-            />
+            <label style={labelStyle}>Full Name</label>
+            <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Full Name" style={{ ...inputStyle, paddingRight: 14 }} required />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="name@example.com"
-              className="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-white/50 focus:outline-none focus:ring-2 focus:ring-teal-500 text-gray-800 text-sm"
-              required
-            />
+            <label style={labelStyle}>Email</label>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="name@example.com" style={{ ...inputStyle, paddingRight: 14 }} required />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              placeholder="Username"
-              className="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-white/50 focus:outline-none focus:ring-2 focus:ring-teal-500 text-gray-800 text-sm"
-              required
-            />
+            <label style={labelStyle}>Username</label>
+            <input type="text" name="username" value={formData.username} onChange={handleChange} placeholder="Username" style={{ ...inputStyle, paddingRight: 14 }} required />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <div className="relative">
+            <label style={labelStyle}>Password</label>
+            <div style={{ position: 'relative' }}>
               <input
                 type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Password"
-                className="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-white/50 focus:outline-none focus:ring-2 focus:ring-teal-500 text-gray-800 text-sm pr-10"
+                style={inputStyle}
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--v-ink-faint)', cursor: 'pointer', display: 'flex' }}
               >
-                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                {showPassword ? <FiEyeOff size={17} /> : <FiEye size={17} />}
               </button>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-            <div className="relative">
+            <label style={labelStyle}>Confirm Password</label>
+            <div style={{ position: 'relative' }}>
               <input
                 type={showConfirmPassword ? 'text' : 'password'}
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm Password"
-                className="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-white/50 focus:outline-none focus:ring-2 focus:ring-teal-500 text-gray-800 text-sm pr-10"
+                style={inputStyle}
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--v-ink-faint)', cursor: 'pointer', display: 'flex' }}
               >
-                {showConfirmPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                {showConfirmPassword ? <FiEyeOff size={17} /> : <FiEye size={17} />}
               </button>
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="w-full py-3 px-4 bg-[#7aa8a2] hover:bg-[#68958f] text-white font-semibold rounded-xl shadow-lg transition duration-200 mt-2"
-          >
+          <button type="submit" className="v-btn-gold" style={{ width: '100%', justifyContent: 'center', marginTop: 4 }}>
             Sign Up
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-gray-600">
+        <p style={{ marginTop: 22, textAlign: 'center', fontSize: 13, color: 'var(--v-ink-muted)' }}>
           Already have an account?{' '}
-          <Link to="/login" className="text-teal-800 font-medium hover:underline">
-            Log in.
-          </Link>
+          <Link to="/login" style={{ color: 'var(--v-gold-500)', fontWeight: 700 }}>Log in.</Link>
         </p>
       </div>
-    </div>
+    </PublicShell>
   );
 }

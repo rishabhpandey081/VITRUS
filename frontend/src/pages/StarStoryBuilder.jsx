@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
+
+const fieldStyle = {
+  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid var(--v-glass-border)',
+  borderRadius: 10, padding: 12, color: 'var(--v-ink)', fontSize: 13.5, outline: 'none', boxSizing: 'border-box', resize: 'none',
+};
+const labelStyle = { display: 'block', fontSize: 12.5, color: 'var(--v-ink-muted)', marginBottom: 6 };
 
 export default function StarStoryBuilder() {
-  const navigate = useNavigate();
   const [form, setForm] = useState({
     title: 'Handling a Critical Production Bug Under Tight Deadlines',
     situation: 'During a product launch at my internship, a critical memory leak surfaced in the frontend rendering pipeline right before peak user traffic.',
@@ -22,103 +27,61 @@ export default function StarStoryBuilder() {
     setTimeout(() => setSaved(false), 3000);
   };
 
+  const previewBlock = (label, value, fallback) => (
+    <div style={{ background: 'rgba(0,0,0,0.35)', padding: 16, borderRadius: 12, border: '1px solid var(--v-glass-border)' }}>
+      <span style={{ display: 'block', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--v-gold-500)', marginBottom: 6 }}>{label}</span>
+      <p style={{ margin: 0, fontSize: 13.5, color: 'var(--v-ink-muted)', lineHeight: 1.7 }}>{value || fallback}</p>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-slate-950 p-6 text-white flex flex-col">
-      <div className="flex justify-between items-center mb-6">
-        <button onClick={() => navigate('/dashboard')} className="text-slate-400 hover:text-white text-sm">
-          ← Dashboard
-        </button>
-        <h1 className="text-xl font-bold">STAR Story Builder</h1>
-        <div className="w-16"></div>
+    <Layout>
+      <div style={{ marginBottom: 24 }}>
+        <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--v-gold-500)' }}>
+          Behavioral Prep
+        </p>
+        <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800 }}>STAR Story Builder</h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
-        <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-4 overflow-y-auto max-h-[80vh]">
-          <h2 className="text-lg font-semibold mb-2">Build Your Behavioral Story</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="v-card" style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 14, overflowY: 'auto', maxHeight: '80vh' }}>
+          <h2 style={{ margin: '0 0 4px', fontSize: 17, fontWeight: 700, color: 'var(--v-ink)' }}>Build Your Behavioral Story</h2>
           <div>
-            <label className="block text-sm text-slate-400 mb-1">Story Title / Topic</label>
-            <input
-              type="text"
-              name="title"
-              value={form.title}
-              onChange={handleChange}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm"
-            />
+            <label style={labelStyle}>Story Title / Topic</label>
+            <input type="text" name="title" value={form.title} onChange={handleChange} style={{ ...fieldStyle, resize: undefined }} />
           </div>
           <div>
-            <label className="block text-sm text-slate-400 mb-1">Situation (Context & Background)</label>
-            <textarea
-              name="situation"
-              value={form.situation}
-              onChange={handleChange}
-              rows="3"
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm resize-none"
-            />
+            <label style={labelStyle}>Situation (Context &amp; Background)</label>
+            <textarea name="situation" value={form.situation} onChange={handleChange} rows="3" style={fieldStyle} />
           </div>
           <div>
-            <label className="block text-sm text-slate-400 mb-1">Task (Your Responsibility or Goal)</label>
-            <textarea
-              name="task"
-              value={form.task}
-              onChange={handleChange}
-              rows="3"
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm resize-none"
-            />
+            <label style={labelStyle}>Task (Your Responsibility or Goal)</label>
+            <textarea name="task" value={form.task} onChange={handleChange} rows="3" style={fieldStyle} />
           </div>
           <div>
-            <label className="block text-sm text-slate-400 mb-1">Action (Specific Steps You Took)</label>
-            <textarea
-              name="action"
-              value={form.action}
-              onChange={handleChange}
-              rows="3"
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm resize-none"
-            />
+            <label style={labelStyle}>Action (Specific Steps You Took)</label>
+            <textarea name="action" value={form.action} onChange={handleChange} rows="3" style={fieldStyle} />
           </div>
           <div>
-            <label className="block text-sm text-slate-400 mb-1">Result (Quantifiable Outcome & Impact)</label>
-            <textarea
-              name="result"
-              value={form.result}
-              onChange={handleChange}
-              rows="3"
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm resize-none"
-            />
+            <label style={labelStyle}>Result (Quantifiable Outcome &amp; Impact)</label>
+            <textarea name="result" value={form.result} onChange={handleChange} rows="3" style={fieldStyle} />
           </div>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl flex flex-col justify-between">
-          <div className="space-y-4 overflow-y-auto max-h-[60vh]">
-            <h2 className="text-lg font-semibold text-indigo-400">Preview: {form.title || 'Untitled Story'}</h2>
-            
-            <div className="space-y-3 text-sm">
-              <div className="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider block mb-1">Situation</span>
-                <p className="text-slate-300 leading-relaxed">{form.situation || 'No situation provided.'}</p>
-              </div>
-              <div className="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider block mb-1">Task</span>
-                <p className="text-slate-300 leading-relaxed">{form.task || 'No task provided.'}</p>
-              </div>
-              <div className="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider block mb-1">Action</span>
-                <p className="text-slate-300 leading-relaxed">{form.action || 'No action provided.'}</p>
-              </div>
-              <div className="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider block mb-1">Result</span>
-                <p className="text-slate-300 leading-relaxed">{form.result || 'No result provided.'}</p>
-              </div>
-            </div>
+        <div className="v-card" style={{ padding: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14, overflowY: 'auto', maxHeight: '60vh' }}>
+            <h2 className="v-gold-text" style={{ margin: 0, fontSize: 17, fontWeight: 700 }}>Preview: {form.title || 'Untitled Story'}</h2>
+            {previewBlock('Situation', form.situation, 'No situation provided.')}
+            {previewBlock('Task', form.task, 'No task provided.')}
+            {previewBlock('Action', form.action, 'No action provided.')}
+            {previewBlock('Result', form.result, 'No result provided.')}
           </div>
 
-          <button
-            onClick={handleSave}
-            className="mt-6 bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-lg font-medium transition text-sm"
-          >
+          <button onClick={handleSave} className="v-btn-gold" style={{ marginTop: 20, width: '100%', justifyContent: 'center' }}>
             {saved ? 'Story Saved Successfully! ✓' : 'Save STAR Story'}
           </button>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
 
 export default function CompanyGuide() {
-  const navigate = useNavigate();
   const [selectedCompany, setSelectedCompany] = useState('Google');
 
   const guides = {
@@ -29,60 +28,67 @@ export default function CompanyGuide() {
   const current = guides[selectedCompany];
 
   return (
-    <div className="min-h-screen bg-slate-950 p-6 text-white flex flex-col">
-      <div className="flex justify-between items-center mb-6">
-        <button onClick={() => navigate('/dashboard')} className="text-slate-400 hover:text-white text-sm">
-          ← Dashboard
-        </button>
-        <h1 className="text-xl font-bold">Company Guides & Interview Loops</h1>
-        <div className="w-16"></div>
+    <Layout>
+      <div style={{ marginBottom: 24 }}>
+        <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--v-gold-500)' }}>
+          Research
+        </p>
+        <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800 }}>Company Guides &amp; Interview Loops</h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1 max-w-6xl mx-auto w-full">
-        <div className="lg:col-span-1 space-y-2">
-          {Object.keys(guides).map((comp) => (
-            <button
-              key={comp}
-              onClick={() => setSelectedCompany(comp)}
-              className={`w-full text-left px-4 py-3 rounded-xl font-medium text-sm transition ${
-                selectedCompany === comp
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white'
-              }`}
-            >
-              {comp} Interview Guide
-            </button>
-          ))}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="lg:col-span-1" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {Object.keys(guides).map((comp) => {
+            const active = selectedCompany === comp;
+            return (
+              <button
+                key={comp}
+                onClick={() => setSelectedCompany(comp)}
+                className={active ? 'v-btn-gold' : undefined}
+                style={active ? { width: '100%', justifyContent: 'flex-start', borderRadius: 12 } : {
+                  width: '100%', textAlign: 'left', padding: '13px 16px', borderRadius: 12,
+                  background: 'var(--v-glass-bg)', border: '1px solid var(--v-glass-border)',
+                  color: 'var(--v-ink-muted)', fontWeight: 600, fontSize: 13.5, cursor: 'pointer',
+                }}
+              >
+                {comp} Interview Guide
+              </button>
+            );
+          })}
         </div>
 
-        <div className="lg:col-span-3 bg-slate-900 border border-slate-800 p-8 rounded-2xl space-y-6 shadow-xl">
+        <div className="lg:col-span-3 v-card" style={{ padding: 32, display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div>
-            <h2 className="text-3xl font-bold text-white">{current.name}</h2>
-            <p className="text-sm text-slate-400 mt-1">Comprehensive preparation guide and interview loop breakdown</p>
+            <h2 style={{ margin: 0, fontSize: 26, fontWeight: 800, color: 'var(--v-ink)' }}>{current.name}</h2>
+            <p style={{ margin: '6px 0 0', fontSize: 13, color: 'var(--v-ink-muted)' }}>Comprehensive preparation guide and interview loop breakdown</p>
           </div>
 
-          <div className="space-y-4">
-            <div className="bg-slate-950 p-5 rounded-xl border border-slate-800">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-400 mb-2">Interview Rounds & Structure</h3>
-              <ul className="list-disc list-inside space-y-1.5 text-sm text-slate-300">
-                {current.rounds.map((round, idx) => (
-                  <li key={idx}>{round}</li>
-                ))}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div style={{ background: 'rgba(0,0,0,0.35)', padding: 18, borderRadius: 14, border: '1px solid var(--v-glass-border)' }}>
+              <h3 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--v-gold-500)' }}>
+                Interview Rounds &amp; Structure
+              </h3>
+              <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13.5, color: 'var(--v-ink-muted)', lineHeight: 1.8 }}>
+                {current.rounds.map((round, idx) => <li key={idx}>{round}</li>)}
               </ul>
             </div>
 
-            <div className="bg-slate-950 p-5 rounded-xl border border-slate-800">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-400 mb-2">Technical & Core Focus</h3>
-              <p className="text-sm text-slate-300 leading-relaxed">{current.focus}</p>
+            <div style={{ background: 'rgba(0,0,0,0.35)', padding: 18, borderRadius: 14, border: '1px solid var(--v-glass-border)' }}>
+              <h3 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--v-gold-500)' }}>
+                Technical &amp; Core Focus
+              </h3>
+              <p style={{ margin: 0, fontSize: 13.5, color: 'var(--v-ink-muted)', lineHeight: 1.7 }}>{current.focus}</p>
             </div>
 
-            <div className="bg-slate-950 p-5 rounded-xl border border-slate-800">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-400 mb-2">Pro Tips for Success</h3>
-              <p className="text-sm text-slate-300 leading-relaxed">{current.tips}</p>
+            <div style={{ background: 'rgba(0,0,0,0.35)', padding: 18, borderRadius: 14, border: '1px solid var(--v-glass-border)' }}>
+              <h3 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--v-gold-500)' }}>
+                Pro Tips for Success
+              </h3>
+              <p style={{ margin: 0, fontSize: 13.5, color: 'var(--v-ink-muted)', lineHeight: 1.7 }}>{current.tips}</p>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }

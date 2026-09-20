@@ -1,8 +1,20 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
+
+const fieldStyle = {
+  width: '100%',
+  background: 'rgba(0,0,0,0.35)',
+  border: '1px solid var(--v-glass-border)',
+  borderRadius: 10,
+  padding: 12,
+  color: 'var(--v-ink)',
+  fontSize: 13.5,
+  outline: 'none',
+  boxSizing: 'border-box',
+};
+const labelStyle = { display: 'block', fontSize: 12.5, color: 'var(--v-ink-muted)', marginBottom: 6 };
 
 export default function Profile() {
-  const navigate = useNavigate();
   const [profile, setProfile] = useState({
     name: 'Rishabh Pandey',
     email: 'rishabh@example.com',
@@ -26,64 +38,42 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 p-6 text-white flex flex-col">
-      <div className="flex justify-between items-center mb-6">
-        <button onClick={() => navigate('/dashboard')} className="text-slate-400 hover:text-white text-sm">
-          ← Dashboard
-        </button>
-        <h1 className="text-xl font-bold">User Profile & Settings</h1>
-        <div className="w-16"></div>
+    <Layout>
+      <div style={{ marginBottom: 24 }}>
+        <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--v-gold-500)' }}>
+          Settings
+        </p>
+        <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800 }}>User Profile &amp; Settings</h1>
       </div>
 
-      <div className="max-w-2xl mx-auto w-full bg-slate-900 border border-slate-800 p-8 rounded-2xl shadow-xl space-y-6">
-        <div>
-          <h2 className="text-2xl font-bold">Personal & Career Profile</h2>
-          <p className="text-sm text-slate-400 mt-1">Manage your target roles, skills, and account details for personalized AI recommendations.</p>
+      <div className="v-card" style={{ maxWidth: 680, margin: '0 auto', padding: 32 }}>
+        <div style={{ marginBottom: 22 }}>
+          <h2 style={{ margin: 0, fontSize: 20, fontWeight: 800, color: 'var(--v-ink)' }}>Personal &amp; Career Profile</h2>
+          <p style={{ margin: '6px 0 0', fontSize: 13, color: 'var(--v-ink-muted)' }}>
+            Manage your target roles, skills, and account details for personalized AI recommendations.
+          </p>
         </div>
 
-        <form onSubmit={handleSave} className="space-y-4">
+        <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm text-slate-400 mb-1">Full Name</label>
-              <input
-                type="text"
-                name="name"
-                value={profile.name}
-                onChange={handleChange}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm"
-              />
+              <label style={labelStyle}>Full Name</label>
+              <input type="text" name="name" value={profile.name} onChange={handleChange} style={fieldStyle} />
             </div>
             <div>
-              <label className="block text-sm text-slate-400 mb-1">Email Address</label>
-              <input
-                type="email"
-                name="email"
-                value={profile.email}
-                onChange={handleChange}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm"
-              />
+              <label style={labelStyle}>Email Address</label>
+              <input type="email" name="email" value={profile.email} onChange={handleChange} style={fieldStyle} />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm text-slate-400 mb-1">Target Role</label>
-              <input
-                type="text"
-                name="targetRole"
-                value={profile.targetRole}
-                onChange={handleChange}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm"
-              />
+              <label style={labelStyle}>Target Role</label>
+              <input type="text" name="targetRole" value={profile.targetRole} onChange={handleChange} style={fieldStyle} />
             </div>
             <div>
-              <label className="block text-sm text-slate-400 mb-1">Experience Level</label>
-              <select
-                name="experienceLevel"
-                value={profile.experienceLevel}
-                onChange={handleChange}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm"
-              >
+              <label style={labelStyle}>Experience Level</label>
+              <select name="experienceLevel" value={profile.experienceLevel} onChange={handleChange} style={fieldStyle}>
                 <option>Student / Intern</option>
                 <option>Entry-Level / Junior (0-2 years)</option>
                 <option>Mid-Level (2-5 years)</option>
@@ -93,46 +83,25 @@ export default function Profile() {
           </div>
 
           <div>
-            <label className="block text-sm text-slate-400 mb-1">Location</label>
-            <input
-              type="text"
-              name="location"
-              value={profile.location}
-              onChange={handleChange}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm"
-            />
+            <label style={labelStyle}>Location</label>
+            <input type="text" name="location" value={profile.location} onChange={handleChange} style={fieldStyle} />
           </div>
 
           <div>
-            <label className="block text-sm text-slate-400 mb-1">Core Skills (comma separated)</label>
-            <input
-              type="text"
-              name="skills"
-              value={profile.skills}
-              onChange={handleChange}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm"
-            />
+            <label style={labelStyle}>Core Skills (comma separated)</label>
+            <input type="text" name="skills" value={profile.skills} onChange={handleChange} style={fieldStyle} />
           </div>
 
           <div>
-            <label className="block text-sm text-slate-400 mb-1">Short Bio</label>
-            <textarea
-              name="bio"
-              value={profile.bio}
-              onChange={handleChange}
-              rows="3"
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500 text-sm resize-none"
-            />
+            <label style={labelStyle}>Short Bio</label>
+            <textarea name="bio" value={profile.bio} onChange={handleChange} rows="3" style={{ ...fieldStyle, resize: 'none' }} />
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-500 py-3 rounded-xl font-medium transition text-sm"
-          >
+          <button type="submit" className="v-btn-gold" style={{ width: '100%', justifyContent: 'center' }}>
             {saved ? 'Profile Updated Successfully! ✓' : 'Save Changes'}
           </button>
         </form>
       </div>
-    </div>
+    </Layout>
   );
 }
